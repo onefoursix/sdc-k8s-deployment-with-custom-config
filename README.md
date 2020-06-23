@@ -4,7 +4,7 @@ This project provides examples and guidance for deploying custom configurations 
 
 ### Example 1: Baked-in Configuration
  
-This approach involves creating a customized <code>sdc.properties</code> file and packaging that file in with your own SDC image, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the provided <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1) directory.  
+This approach creates a custom <code>sdc.properties</code> file and packages it in with a custom SDC image, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1) directory.  
 
 This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config, other than Java Heap size, does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration, but typically would not set a value for <code>sdc.base.http.url</code>, as execution SDCs typically run in a "headless" fashion. 
 
@@ -14,10 +14,12 @@ Make sure to set <code>http.realm.file.permission.check=false</code> to avoid pe
 
 Assuming an Ingress Controller is deployed, one can extend Example 1 (reusing the same custom SDC image with its baked-in <code>sdc.properties</code>) by adding a Service and Ingress to the SDC deployment manifest along with these two entries added to the deployment's <code>env:</code> section:
 
-    - name: SDC_CONF_SDC_BASE_HTTP_URL
-      value: https://<your ingress host>[:<your ingress port>]
-    - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
-      value: true
+<code>    
+- name: SDC_CONF_SDC_BASE_HTTP_URL
+  value: https://<your ingress host>[:<your ingress port>]
+- name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
+  value: true
+  </code>
       
 One could bake these properties into a custom SDC image, as in Example 1, but that would limit the image's usefulness; typically, an SDC Base URL is set at deployment time.
 
@@ -61,5 +63,29 @@ And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properti
       subPath: sdc.properties
 
 See Example 3's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
+
+
+### Example 4: Loading static and dynamic properties from ConfigMaps
+
+This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties that rarely if ever change, and one for the dynamic properties targeted for a specific deployment.
+
+Similar to Example 3, start by copying a clean <code>sdc.properties</code> file to a local working directory, but this time, rename the file to <code>sdc-static.properties</code>.
+
+Comment out (!) all the properties that need to be set specifically for a deployment.  This file will provide all of the static <code>sdc.properties</code> and can be reused across multiple deployments.  For example, I'll include this property in the file:
+
+    http.realm.file.permission.check=false
+
+But I will comment out this property:
+
+    # sdc.base.http.url=https://sequoia.onefoursix.com
+    
+One final setting:  append the filename <code>sdc-dynamic.properties</code> to the <code>config.includes</code> property in your <code>sdc-static.properties</code> file like this:
+
+    config.includes=dpm.properties,vault.properties,credential-stores.properties,sdc-dynamic.properties
+
+
+Save the <code>sdc-static.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
+
+<code>$ kubectl create configmap sdc-static-properties --from-file=sdc-static.properties</code>
 
 
