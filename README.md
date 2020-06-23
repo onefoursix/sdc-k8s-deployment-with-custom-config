@@ -42,7 +42,7 @@ Save the edited <code>sdc.properties</code> file in a configMap named <code>sdc-
 
     $ kubectl create configmap sdc-properties --from-file=sdc.properties
 
-(Control Hub can't yet include a configMap in an SDC deployment, so this configMap needs to be created outside of Control Hub).
+(Control Hub can't yet include a configMap in an SDC deployment, so this configMap needs to be created in advance outside of Control Hub prior to starting the SDC deployment).
 
 Add the configMap as a Volume in your SDC deployment manifest like this:
 
@@ -58,6 +58,6 @@ And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properti
       mountPath: /etc/sdc/sdc.properties
       subPath: sdc.properties
 
-
+See Example 3's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
 
 
