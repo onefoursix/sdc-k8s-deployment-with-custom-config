@@ -25,6 +25,8 @@ Environment variables, like <code>SDC_CONF_SDC_BASE_HTTP_URL</code> and <code>SD
 
 However (!) this mechanism is not able to set mixed-case properties in <code>sdc.properties</code> like <code>production.maxBatchSize</code>.  If you want to set mixed-case properties then you either have to bake-in the settings in the <code>sdc.properties</code> file packaged in a custom SDC image (as in Example 1), or set the properties in a configMap Volume Mounted over the image's <code>sdc.properties</code> file as described below.
 
+See Example 2's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-2/sdc.yaml) for the full deployment manifest.
+
 ### Example 3: Loading <code>sdc.properties</code> from a ConfigMap
 
 An approach that offers greater flexibility than the examples above is to dynamically load an <code>sdc.properties</code> file at deployment time. One way to do that is to edit and store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
