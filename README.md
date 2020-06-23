@@ -13,14 +13,12 @@ Make sure to set <code>http.realm.file.permission.check=false</code> to avoid pe
 ### Example 2: Baked-in Configuration plus Ingress
 
 Assuming an Ingress Controller is deployed, one can extend Example 1 (reusing the same custom SDC image with its baked-in <code>sdc.properties</code>) by adding a Service and Ingress to the SDC deployment manifest along with these two entries added to the deployment's <code>env:</code> section:
-
-<code>    
+  
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://<your ingress host>[:<your ingress port>]
     - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
       value: true
-</code>
-      
+
 One could bake these properties into a custom SDC image, as in Example 1, but that would limit the image's usefulness; typically, an SDC Base URL is set at deployment time.
 
 Environment variables, like <code>SDC_CONF_SDC_BASE_HTTP_URL</code> and <code>SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS</code>, allow one to dynamically set properties in the deployed SDC's <code>sdc.properties</code> file, based on trimming the <code>SDC_CONF_</code> prefix, lowercasing the name and replacing <code>_</code> with <code>.</code>.  So, for example, the value set in the environment variable <code>SDC_CONF_SDC_BASE_HTTP_URL</code> winds up being set in <code>sdc.properties</code> as the property <code>sdc.base.http.url</code>.  
