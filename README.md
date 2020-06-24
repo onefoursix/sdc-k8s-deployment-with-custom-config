@@ -6,7 +6,7 @@ This project provides examples and guidance for deploying custom configurations 
  
 This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1) directory.  
 
-This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config, other than Java Heap size, does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration, but typically would not set a value for <code>sdc.base.http.url</code>, as execution SDCs typically run in a "headless" fashion. 
+This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration, but typically would not set a value for <code>sdc.base.http.url</code>, as execution SDCs typically run in a "headless" fashion. 
 
 Make sure to set <code>http.realm.file.permission.check=false</code> to avoid permission issues.
 
@@ -45,7 +45,7 @@ It's also worth noting that that values for environment variables with the prefi
 
 An approach that offers greater flexibility than the examples above is to dynamically mount an <code>sdc.properties</code> file from a Volume at deployment time. One way to do that is to store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
 
-As mentioned above, when using this technique, the configMap's representation of <code>sdc.properties</code> will be read-only, so one can't use any <code>SDC_CONF_</code> prefixed environment variables in the SDC deployment; all custom properties values for properties defined in <code>sdc.properties</code> need to be set in the  configMap (though one can still set <code>SDC_JAVA_OPTS</code> in the environment as that is a "pure" environment variable used by SDC).  
+As mentioned above, when using this technique, the configMap's representation of <code>sdc.properties</code> will be read-only, so one can't use any <code>SDC_CONF_</code> prefixed environment variables in the SDC deployment; all custom property values for properties defined in <code>sdc.properties</code> need to be set in the  configMap (though one can still set <code>SDC_JAVA_OPTS</code> in the environment as that is a "pure" environment variable used by SDC).  
 
 This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap.  Start by copying a clean <code>sdc.properties</code> file to a local working directory. Set all property values you want for a given deployment.  For this example I will set these properties within the file (along with all the other properties already in the file):
 
@@ -58,7 +58,7 @@ Save the edited <code>sdc.properties</code> file in a configMap named <code>sdc-
 
     $ kubectl create configmap sdc-properties --from-file=sdc.properties
 
-(Control Hub can't yet include a configMap in an SDC deployment, so this configMap needs to be created in advance outside of Control Hub prior to starting the SDC deployment).
+This configMap needs to be created in advance, outside of Control Hub, prior to starting the SDC deployment.
 
 Add the configMap as a Volume in your SDC deployment manifest like this:
 
@@ -97,13 +97,15 @@ One final setting:  append the filename <code>sdc-dynamic.properties</code> to t
 
     config.includes=dpm.properties,vault.properties,credential-stores.properties,sdc-dynamic.properties
 
+That setting will load the dynamic properties described below.
+
 Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
 
 <code>$ kubectl create configmap sdc-static-properties --from-file=sdc.properties</code>
 
 Once again, the configMap <code>sdc-static-properties</code> can be reused across multiple deployments.
 
-Next, create a small file named <code>sdc-dynamic.properties</code> with only properties specific to a given deployment,  For example, my <code>sdc-dynamic.properties</code> file contains only these two properties:
+Next, create a small file named <code>sdc-dynamic.properties</code> that will contain only properties specific to a given deployment,  For example, my <code>sdc-dynamic.properties</code> file contains only these two properties:
 
     sdc.base.http.url=https://sequoia.onefoursix.com
     production.maxBatchSize=20000
