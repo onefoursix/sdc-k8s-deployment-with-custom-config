@@ -63,7 +63,7 @@ And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properti
 See Example 3's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
 
 
-### Example 4: Loading static and dynamic properties from separate ConfigMaps
+### Example 4: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps
 
 This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties that rarely if ever change (and that can be broadly reused across multiple deployments), and one for dynamic properties targeted for a specific deployment.
 
@@ -125,3 +125,37 @@ And add two Volume Mounts to the SDC container, the first to overwrite the <code
       subPath: sdc-dynamic.properties
 
 See Example 4's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-4/sdc.yaml) for the full deployment manifest.
+
+### Example 5: Loading <code>credential-stores.properties</code> from a Secret
+
+This example shows how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments and want to automatically load the correct settings into each SDC across different environments.  
+
+Start by creating a <code>credential-stores.properties</code> file.  For example, a <code>credential-stores.properties</code> file used for Azure Key Vault might look like this:
+
+    credentialStores=azure
+    credentialStore.azure.def=streamsets-datacollector-azure-keyvault-credentialstore-lib::com_streamsets_datacollector_credential_azure_keyvault_AzureKeyVaultCredentialStore
+    credentialStore.azure.config.credential.refresh.millis=30000
+    credentialStore.azure.config.credential.retry.millis=15000
+    credentialStore.azure.config.vault.url=https://mykeyvault.vault.azure.net/
+    credentialStore.azure.config.client.id=[redacted]
+    credentialStore.azure.config.client.key=[redacted]
+    
+Store the <code>credential-stores.properties</code> file in a Secret; I'll name my secret <code>azure-key-vault-credential-store</code>:
+
+    $ kubectl create secret generic azure-key-vault-credential-store --from-file=credential-stores.properties 
+
+In your SDC deployment manifest, create a Volume for the Secret:
+
+    volumes:
+    - name: azure-key-vault-credential-store
+      secret:
+        secretName: azure-key-vault-credential-store
+ 
+And then create a Volume Mount that overwrites the default <code>credential-stores.properties</code> file:
+
+    volumeMounts:
+    - name: azure-key-vault-credential-store
+      mountPath: /etc/sdc/credential-stores.properties
+      subPath: credential-stores.properties
+         
+See Example 5's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-5/sdc.yaml) for the full deployment manifest.
