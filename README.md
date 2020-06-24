@@ -8,7 +8,7 @@ This approach packages a custom <code>sdc.properties</code> file within a custom
 
 This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration, but typically would not set a value for <code>sdc.base.http.url</code>, as execution SDCs typically run in a "headless" fashion. 
 
-Make sure to set <code>http.realm.file.permission.check=false</code> to avoid permission issues.
+Make sure to set <code>http.realm.file.permission.check=false</code> in your <code>sdc.properties</code> file to avoid permission issues.
 
 Java options, like heap size, can be set at deployment time by setting the <code>SDC_JAVA_OPTS</code> environment variable in the deployment manifest like this:
 
