@@ -34,7 +34,7 @@ Environment variables with the prefix <code>"SDC_CONF_"</code>, like <code>SDC_C
 
 However, this mechanism is not able to set mixed-case properties in <code>sdc.properties</code> like <code>production.maxBatchSize</code>.  If you want to set mixed-case properties then you either have to bake-in the settings in the <code>sdc.properties</code> file packaged in a custom SDC image (as in Example 1 above), or set the properties in a Volume mounted over the image's <code>sdc.properties</code> file as shown in Examples 3 and 4 below.
 
-It's also worth noting that that values for environment variables with the prefix <code>"SDC_CONF_"</code> are written to the <code>sdc.properties</code> file by the SDC container's <code>docker-entrypoint.sh</code> script which forces the SDC container to have read/write access to the <code>sdc.properties</code> file, which may not be the case if <code>sdc.properties</code> is mounted from a Volume.  
+It's also worth noting that values for environment variables with the prefix <code>"SDC_CONF_"</code> are written to the <code>sdc.properties</code> file by the SDC container's <code>docker-entrypoint.sh</code> script which forces the SDC container to have read/write access to the <code>sdc.properties</code> file, which may not be the case if <code>sdc.properties</code> is mounted from a Volume.  
 
 *Best practice is to load <code>sdc.properties</code> from a Volume and to avoid using <code>SDC_CONF_</code> environment variables.*
 
