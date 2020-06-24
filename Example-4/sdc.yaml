@@ -19,20 +19,26 @@ items:
       spec:
         containers:
         - name : auth-sdc
-          image: onefoursix/sdc-custom-config:latest
+          image: <your SDC image>
           ports:
           - containerPort: 18630
           env:
           - name: SDC_JAVA_OPTS
             value: "-Xmx4g -Xms4g"
           volumeMounts:
-          - name: sdc-properties
+          - name: sdc-static-properties
             mountPath: /etc/sdc/sdc.properties
             subPath: sdc.properties
+          - name: sdc-dynamic-properties
+            mountPath: /etc/sdc/sdc-dynamic.properties
+            subPath: sdc-dynamic.properties
         volumes:
-        - name: sdc-properties
-          configMap:
-            name: sdc-properties
+         - name: sdc-static-properties
+           configMap:
+             name: sdc-static-properties
+         - name: sdc-dynamic-properties
+           configMap:
+             name: sdc-dynamic-properties
 - apiVersion: v1
   kind: Service
   metadata:
