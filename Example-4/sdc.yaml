@@ -19,7 +19,7 @@ items:
       spec:
         containers:
         - name : auth-sdc
-          image: <your SDC image>
+          image: streamsets/datacollector:latest
           ports:
           - containerPort: 18630
           env:
@@ -33,12 +33,18 @@ items:
             mountPath: /etc/sdc/sdc-dynamic.properties
             subPath: sdc-dynamic.properties
         volumes:
-         - name: sdc-static-properties
-           configMap:
-             name: sdc-static-properties
-         - name: sdc-dynamic-properties
-           configMap:
-             name: sdc-dynamic-properties
+        - name: sdc-static-properties
+          configMap:
+            name: sdc-static-properties
+            items:
+            - key: sdc.properties
+              path: sdc.properties
+        - name: sdc-dynamic-properties
+          configMap:
+            name: sdc-dynamic-properties
+            items:
+            - key: sdc-dynamic.properties
+              path: sdc-dynamic.properties
 - apiVersion: v1
   kind: Service
   metadata:

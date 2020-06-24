@@ -63,34 +63,33 @@ And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properti
 See Example 3's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
 
 
-### Example 4: Loading static and dynamic properties from ConfigMaps
+### Example 4: Loading static and dynamic properties from separate ConfigMaps
 
-This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties that rarely if ever change, and one for the dynamic properties targeted for a specific deployment.
+This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties that rarely if ever change (and that can be broadly reused across multiple deployments), and one for dynamic properties targeted for a specific deployment.
 
-Similar to Example 3, start by copying a clean <code>sdc.properties</code> file to a local working directory, but this time, rename the file to <code>sdc-static.properties</code>.
+Similar to Example 3, start by copying a clean <code>sdc.properties</code> file to a local working directory.
 
-Comment out (!) all the properties that need to be set specifically for a deployment.  This file will provide all of the static <code>sdc.properties</code> and can be reused across multiple deployments.  For example, I'll set and include these two properties in the file:
+Comment out or delete the small number of properties that need to be set specifically for a deployment, leaving in place the majority of properties to be reused across deployments.  For example, I'll set and include these two properties in the file:
 
     http.realm.file.permission.check=false
     http.enable.forwarded.requests=true
     
-But I will comment out these two properties:
+But I will comment out these two properties which I want to set specifically for a given deployment:
 
     # sdc.base.http.url=http://<hostname>:<port>
     # production.maxBatchSize=1000
     
-One final setting:  append the filename <code>sdc-dynamic.properties</code> to the <code>config.includes</code> property in your <code>sdc-static.properties</code> file like this:
+One final setting:  append the filename <code>sdc-dynamic.properties</code> to the <code>config.includes</code> property in the <code>sdc.properties</code> file like this:
 
     config.includes=dpm.properties,vault.properties,credential-stores.properties,sdc-dynamic.properties
 
+Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
 
-Save the <code>sdc-static.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
+<code>$ kubectl create configmap sdc-static-properties --from-file=sdc.properties</code>
 
-<code>$ kubectl create configmap sdc-static-properties --from-file=sdc-static.properties</code>
+Once again, the configMap <code>sdc-static-properties</code> can be reused across multiple deployments.
 
-Once again, keep in mind that the configMap <code>sdc-static-properties</code> can be broadly reused.
-
-Next, create a small file named <code>sdc-dynamic.properties</code> with only the properties you want to set for a given deployment,  For example, my <code>sdc-dynamic.properties</code> file contains only these two properties:
+Next, create a small file named <code>sdc-dynamic.properties</code> with only properties specific to a given deployment,  For example, my <code>sdc-dynamic.properties</code> file contains only these two properties:
 
     sdc.base.http.url=https://sequoia.onefoursix.com
     production.maxBatchSize=20000
@@ -99,17 +98,23 @@ Save the <code>sdc-dynamic.properties</code> file in a configMap named <code>sdc
 
 <code>$ kubectl create configmap sdc-dynamic-properties --from-file=sdc-dynamic.properties</code>
 
-Add both configMap as Volumes in your SDC deployment manifest like this:
+Add two Volumes to your SDC deployment manifest like this:
 
     volumes:
     - name: sdc-static-properties
       configMap:
         name: sdc-static-properties
+        items:
+        - key: sdc.properties
+          path: sdc.properties
     - name: sdc-dynamic-properties
       configMap:
         name: sdc-dynamic-properties
+        items:
+        - key: sdc-dynamic.properties
+          path: sdc-dynamic.properties
         
-And two Volume Mounts to the SDC container, the first to overwrite the <code>sdc.properties</code> file and the second to add the referenced <code>sdc-dynamic.properties</code> file
+And add two Volume Mounts to the SDC container, the first to overwrite the <code>sdc.properties</code> file and the second to add the referenced <code>sdc-dynamic.properties</code> file
 
     volumeMounts:
     - name: sdc-static-properties
