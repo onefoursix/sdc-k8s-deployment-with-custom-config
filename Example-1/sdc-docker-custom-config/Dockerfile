@@ -10,4 +10,3 @@ COPY --chown=sdc:sdc sdc-extras/ ${STREAMSETS_LIBRARIES_EXTRA_DIR}/
 
 # Copy the custom sdc.properties file into the image
 COPY --chown=sdc:sdc sdc-conf/ ${SDC_CONF}/
-

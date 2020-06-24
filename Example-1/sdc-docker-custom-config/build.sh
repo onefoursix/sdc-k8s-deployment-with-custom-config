@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=onefoursix/sdc-custom-config:latest
+IMAGE_NAME=<your-repo>/<your image>:<your tag>
 
 docker build -t $IMAGE_NAME \
 --build-arg SDC_LIBS=\
