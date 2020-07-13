@@ -186,3 +186,46 @@ See Example 5's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with
 This example showing how to load shared files and other resources using Volume Mounts.  This technique can be used to load any resources needed by SDC at deployment time that are not baked into the SDC image, including, for example, hadoop config files, lookup files, JDBC drivers, etc... 
 
 See Example 6's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-6/sdc.yaml) for an example deployment manifest.
+
+
+### Example 7: Loading a keystore and a truststore from a single Secret
+
+This example showing how to load a keystore and a truststore from a single Secret.
+
+Start by creating a Secret that contains two files loaded from disk:
+
+    $ kubectl create secret generic my-secrets \
+       --from-file=my-truststore.jks \
+       --from-file=my-keystore.jks 
+    
+In your SDC deployment manifest, create a Volume for the Secret with keys for both files:
+
+    volumes:
+    - name: my-secrets
+      secret:
+        secretName: my-secrets
+        items:
+        - key: my-keystore.jks
+          path: my-keystore.jks
+        - key: my-truststore.jks
+          path: my-truststore.jks
+
+
+In your SDC container, add two VolumeMounts that load both files from the Secret:
+
+    volumeMounts:
+    - name: my-secrets
+      mountPath: /etc/sdc/my-keystore.jks
+      subPath: my-keystore.jks
+    - name: my-secrets
+      mountPath: /etc/sdc/my-truststore.jks
+      subPath: my-truststore.jks
+
+Once the SDC container starts, <code>exec</code> into the container to see the two files loaded from the Secret:
+
+    $ kubectl exec -it auth-sdc-84bdc7d58d-w8gt6 -- sh
+    / $ ls -l /etc/sdc | grep "my-"
+    -rw-r--r--    1 root     root            19 Jul 13 23:41 my-keystore.jks
+    -rw-r--r--    1 root     root            21 Jul 13 23:41 my-truststore.jks
+
+See Example 7's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-7/sdc.yaml) for an example deployment manifest.
