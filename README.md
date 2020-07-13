@@ -4,17 +4,19 @@ This project provides examples and guidance for deploying custom configurations 
 
 ### Example 1: Baked-in Configuration
  
-This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1) directory.  
+This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc-docker-custom-config) directory.  
 
-This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration, but typically would not set a value for <code>sdc.base.http.url</code>, as execution SDCs typically run in a "headless" fashion. 
+This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration if these properties are consistent across deployments. 
 
-Make sure to set <code>http.realm.file.permission.check=false</code> in your <code>sdc.properties</code> file to avoid permission issues.
+Set <code>http.realm.file.permission.check=false</code> in your <code>sdc.properties</code> file to avoid permission issues.
 
 Java options, like heap size, can be set at deployment time by setting the <code>SDC_JAVA_OPTS</code> environment variable in the deployment manifest like this:
 
     env:
     - name: SDC_JAVA_OPTS
       value: "-Xmx4g -Xms4g"
+      
+See Example 1's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc.yaml) for the full deployment manifest.
  
 ### Example 2: Baked-in Configuration plus Ingress
 
@@ -27,7 +29,7 @@ Assuming an Ingress Controller is deployed, one can extend Example 1 (reusing th
 
 One could bake these properties into a custom SDC image, as in Example 1, but that would limit the image's usefulness; typically, an SDC Base URL is set at deployment time.
 
-See Example 2's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-2/sdc.yaml) for the full deployment manifest.
+See Example 2's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-2/sdc.yaml) for the full deployment manifest.
 
 #### A note about Environment variables
 Environment variables with the prefix <code>"SDC_CONF_"</code>, like <code>SDC_CONF_SDC_BASE_HTTP_URL</code>, allow one to dynamically set properties in the deployed SDC's <code>sdc.properties</code> file. These environment variables are mapped to SDC properties by trimming the <code>SDC_CONF_</code> prefix, lowercasing the name and replacing <code>"_"</code> with <code>"."</code>.  So, for example, the value set in the environment variable <code>SDC_CONF_SDC_BASE_HTTP_URL</code> will be set in <code>sdc.properties</code> as the property <code>sdc.base.http.url</code>. 
@@ -38,16 +40,13 @@ It's also worth noting that values for environment variables with the prefix <co
 
 *Best practice is to load <code>sdc.properties</code> from a Volume and to avoid using <code>SDC_CONF_</code> environment variables.*
 
-
-
-
 ### Example 3: Loading <code>sdc.properties</code> from a ConfigMap
 
-An approach that offers greater flexibility than the examples above is to dynamically mount an <code>sdc.properties</code> file from a Volume at deployment time. One way to do that is to store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
+An approach that offers greater flexibility than the examples above is to dynamically mount an <code>sdc.properties</code> file at deployment time. One way to do that is to store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
 
 As mentioned above, when using this technique, the configMap's representation of <code>sdc.properties</code> will be read-only, so one can't use any <code>SDC_CONF_</code> prefixed environment variables in the SDC deployment; all custom property values for properties defined in <code>sdc.properties</code> need to be set in the  configMap (though one can still set <code>SDC_JAVA_OPTS</code> in the environment as that is a "pure" environment variable used by SDC).  
 
-This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap.  Start by copying a clean <code>sdc.properties</code> file to a local working directory. Set all property values you want for a given deployment.  For this example I will set these properties within the file (along with all the other properties already in the file):
+This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap.  Start by copying a clean <code>sdc.properties</code> file to a local working directory. Set all property values you want for a given deployment.  For this example I will set custom values for these properties within the file (alongside all the other properties already in the file):
 
     sdc.base.http.url=https://sequoia.onefoursix.com
     http.enable.forwarded.requests=true
@@ -67,19 +66,19 @@ Add the configMap as a Volume in your SDC deployment manifest like this:
       configMap:
         name: sdc-properties
         
-And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</code> file:
+Add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</code> file:
 
     volumeMounts:
     - name: sdc-properties
       mountPath: /etc/sdc/sdc.properties
       subPath: sdc.properties
 
-See Example 3's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
+See Example 3's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-3/sdc.yaml) for the full deployment manifest.
 
 
 ### Example 4: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps
 
-This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties that rarely if ever change (and that can be broadly reused across multiple deployments), and one for dynamic properties targeted for a specific deployment.
+This example splits the monolithic <code>sdc.properties</code> file used in Example 3 into two configMaps: one for properties loaded from a file that rarely if ever change (and that can be reused across multiple deployments), and one for dynamic properties targeted for a specific deployment that can be edited inline within a manifest.
 
 Similar to Example 3, start by copying a clean <code>sdc.properties</code> file to a local working directory.
 
@@ -105,14 +104,20 @@ Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-
 
 Once again, the configMap <code>sdc-static-properties</code> can be reused across multiple deployments.
 
-Next, create a small file named <code>sdc-dynamic.properties</code> that will contain only properties specific to a given deployment,  For example, my <code>sdc-dynamic.properties</code> file contains only these two properties:
+Next, create a manifest named <code>sdc-dynamic-properties.yaml</code> that will contain only properties specific to a given deployment,  For example, my <code>sdc-dynamic-properties.yaml</code> contains  these two properties:
 
-    sdc.base.http.url=https://sequoia.onefoursix.com
-    production.maxBatchSize=20000
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: sdc-dynamic-properties
+    data:
+      sdc-dynamic.properties: |
+        sdc.base.http.url=https://portland.onefoursix.com
+        production.maxBatchSize=20000
     
-Save the <code>sdc-dynamic.properties</code> file in a configMap named <code>sdc-dynamic-properties</code> by executing a command like this:
+Create the configMap by executing a command like this:
 
-<code>$ kubectl create configmap sdc-dynamic-properties --from-file=sdc-dynamic.properties</code>
+<code>$ kubectl apply -f sdc-dynamic-properties.yaml</code>
 
 Add two Volumes to your SDC deployment manifest like this:
 
@@ -140,11 +145,11 @@ And add two Volume Mounts to the SDC container, the first to overwrite the <code
       mountPath: /etc/sdc/sdc-dynamic.properties
       subPath: sdc-dynamic.properties
 
-See Example 4's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-4/sdc.yaml) for the full deployment manifest.
+See Example 4's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-4/sdc.yaml) for the full deployment manifest.
 
 ### Example 5: Loading <code>credential-stores.properties</code> from a Secret
 
-This example shows how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments and want to automatically load the correct settings into each SDC across different environments.  
+This example extends Example 4 by showing how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments (for example, Dev, QA, Prod) and want each environment's SDCs to automatically load the appropriate settings.  
 
 Start by creating a <code>credential-stores.properties</code> file.  For example, a <code>credential-stores.properties</code> file used for Azure Key Vault might look like this:
 
@@ -174,4 +179,10 @@ And then create a Volume Mount that overwrites the default <code>credential-stor
       mountPath: /etc/sdc/credential-stores.properties
       subPath: credential-stores.properties
          
-See Example 5's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-5/sdc.yaml) for the full deployment manifest.
+See Example 5's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-5/sdc.yaml) for the full deployment manifest.
+
+### Example 6: Loading resources from Volume Mounts
+
+This example showing how to load shared files and other resources using Volume Mounts.  This technique can be used to load any resources needed by SDC at deployment time that are not baked into the SDC image, including, for example, hadoop config files, lookup files, JDBC drivers, etc... 
+
+See Example 6's [sdc.yaml](https://github.com/streamsets/sdc-k8s-deployment-with-custom-config/tree/master/Example-6/sdc.yaml) for an example deployment manifest.

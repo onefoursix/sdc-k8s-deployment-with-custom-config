@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datacollector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datacollector-deployment
+  template:
+    metadata:
+      labels:
+        app: datacollector-deployment
+    spec:
+      containers:
+      - name: datacollector
+        image: <your SDC image>
+        ports:
+        - containerPort: 18630
+        env:
+        volumeMounts:
+        - name: streamsets-resources 
+          mountPath: /resources
+        - name: sdc-extras 
+          mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs-extras
+      volumes:
+      - name: streamsets-resources
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/resources
+          readOnly: true
+      - name: sdc-extras
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/sdc-extras
+          readOnly: true

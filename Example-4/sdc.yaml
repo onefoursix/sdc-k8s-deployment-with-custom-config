@@ -6,7 +6,7 @@ items:
   metadata:
     name: auth-sdc
     labels:
-      app : auth-sdc
+      app: auth-sdc
   spec:
     replicas: 1
     selector:
@@ -18,7 +18,7 @@ items:
           app: auth-sdc
       spec:
         containers:
-        - name : auth-sdc
+        - name: auth-sdc
           image: streamsets/datacollector:latest
           ports:
           - containerPort: 18630
