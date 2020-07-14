@@ -4,7 +4,7 @@ This project provides examples and guidance for deploying custom configurations 
 
 Examples include:
 
-* [Example #1: Baked-in Configuration (and how to set Java Opts)](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-1-baked-in-configuration)
+* [Example #1: Baked-in Configuration (and how to set Java Opts)](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-1-baked-in-configuration-and-how-to-set-java-opts)
 * [Example #2: Ingress](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-2-baked-in-configuration-plus-ingress)
 * [Example #3: Loading <code>sdc.properties</code> from a ConfigMap](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-3-loading-sdcproperties-from-a-configmap)
 * [Example #4: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-4-loading-static-and-dynamic-sdcproperties-from-separate-configmaps)
@@ -30,7 +30,7 @@ Java options, like heap size, can be set at deployment time by setting the <code
       
 See Example 1's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc.yaml) for the full deployment manifest.
  
-### Example 2: Baked-in Configuration plus Ingress
+### Example 2: Ingress
 
 Assuming an Ingress Controller is deployed, one can extend Example 1 (reusing the same custom SDC image with its baked-in <code>sdc.properties</code>) by adding a Service and Ingress to the SDC deployment manifest along with these two additional environment variables added to the deployment:
   
