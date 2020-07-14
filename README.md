@@ -2,6 +2,18 @@
 
 This project provides examples and guidance for deploying custom configurations of [StreamSets Data Collector](https://streamsets.com/products/dataops-platform/data-collector) (SDC) on Kubernetes using [Control Hub](https://streamsets.com/products/dataops-platform/control-hub).  Each example provides an <code>sdc.yaml</code> that shows the relevant configuration.
 
+Examples include:
+
+* Example #1: Baked-in Configuration (and how to set Java Opts)
+* Example #2: Ingress
+* Example #3: Loading <code>sdc.properties</code> from a ConfigMap
+* Example #4: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps
+* Example #5: Loading <code>credential-stores.properties</code> from a Secret
+* Example #6: Loading resources a read-only Volume
+* Example #7: Loading a keystore and a truststore from a single Secret
+
+
+
 ### Example 1: Baked-in Configuration
  
 This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/onefoursix/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc-docker-custom-config) directory.  
@@ -181,9 +193,9 @@ And then create a Volume Mount that overwrites the default <code>credential-stor
          
 See Example 5's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-5/sdc.yaml) for the full deployment manifest.
 
-### Example 6: Loading resources from Volume Mounts
+### Example 6: Loading resources from a read-only Volume
 
-This example showing how to load shared files and other resources using Volume Mounts.  This technique can be used to load any resources needed by SDC at deployment time that are not baked into the SDC image, including, for example, hadoop config files, lookup files, JDBC drivers, etc... 
+This example showing how to load shared files and other resources from a read-only Volume.  This technique can be used to load any resources needed by SDC at deployment time that are not baked into the SDC image, including, for example, hadoop config files, lookup files, JDBC drivers, etc... 
 
 See Example 6's [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-6/sdc.yaml) for an example deployment manifest.
 
