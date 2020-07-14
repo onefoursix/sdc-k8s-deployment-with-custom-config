@@ -4,13 +4,13 @@ This project provides examples and guidance for deploying custom configurations 
 
 Examples include:
 
-* Example #1: [Baked-in Configuration (and how to set Java Opts)](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-1-baked-in-configuration)
-* Example #2: [Ingress](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-2-baked-in-configuration-plus-ingress)
-* Example #3: [Loading <code>sdc.properties</code> from a ConfigMap](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-3-loading-sdcproperties-from-a-configmap)
-* Example #4: [Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-4-loading-static-and-dynamic-sdcproperties-from-separate-configmaps)
-* Example #5: [Loading <code>credential-stores.properties</code> from a Secret](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-5-loading-credential-storesproperties-from-a-secret)
-* Example #6: [Loading resources a read-only Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-6-loading-resources-from-a-read-only-volume)
-* Example #7: [Loading a keystore and a truststore from a single Secret](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-7-loading-a-keystore-and-a-truststore-from-a-single-secret)
+* [Example #1: Baked-in Configuration (and how to set Java Opts)](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-1-baked-in-configuration)
+* [Example #2: Ingress](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-2-baked-in-configuration-plus-ingress)
+* [Example #3: Loading <code>sdc.properties</code> from a ConfigMap](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-3-loading-sdcproperties-from-a-configmap)
+* [Example #4: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-4-loading-static-and-dynamic-sdcproperties-from-separate-configmaps)
+* [Example #5: Loading <code>credential-stores.properties</code> from a Secret](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-5-loading-credential-storesproperties-from-a-secret)
+* [Example #6: Loading resources a read-only Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-6-loading-resources-from-a-read-only-volume)
+* [Example #7: Loading a keystore and a truststore from a single Secret](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config#example-7-loading-a-keystore-and-a-truststore-from-a-single-secret)
 
 
 
