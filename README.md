@@ -16,7 +16,7 @@ Examples include:
 
 ### Example 1: Baked-in Configuration (and how to set Java Opts)
  
-This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/onefoursix/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc-docker-custom-config) directory.  
+This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc-docker-custom-config) directory.  
 
 This approach is most suitable for [execution](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/DataCollectors_title.html) SDCs whose config does not need to be dynamically set.  The <code>sdc.properties</code> file "baked in" to the custom SDC image may include custom settings for properties like <code>production.maxBatchSize</code> and email configuration if these properties are consistent across deployments. 
 
