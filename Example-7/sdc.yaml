@@ -1,74 +1,36 @@
-apiVersion: 1
-kind: List
-items:
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: auth-sdc
-    labels:
-      app: auth-sdc
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: auth-sdc
-    template:
-      metadata:
-        labels:
-          app: auth-sdc
-      spec:
-        containers:
-        - name: auth-sdc
-          image: streamsets/datacollector:latest
-          ports:
-          - containerPort: 18630
-          env:
-          - name: SDC_JAVA_OPTS
-            value: "-Xmx4g -Xms4g"
-          volumeMounts:
-          - name: my-secrets
-            mountPath: /etc/sdc/my-keystore.jks
-            subPath: my-keystore.jks
-          - name: my-secrets
-            mountPath: /etc/sdc/my-truststore.jks
-            subPath: my-truststore.jks
-        volumes:
-        - name: my-secrets
-          secret:
-            secretName: my-secrets
-            items:
-            - key: my-keystore.jks
-              path: my-keystore.jks
-            - key: my-truststore.jks
-              path: my-truststore.jks
-        
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: auth-sdc
-    labels:
-      app: auth-sdc
-  spec:
-    type: NodePort
-    ports:
-    - name: http
-      port: 18635
-      targetPort: 18630
-      protocol: TCP
-    selector:
-      app: auth-sdc
-- apiVersion: extensions/v1beta1
-  kind: Ingress
-  metadata:
-    name: auth-sdc
-    annotations:
-      kubernetes.io/ingress.class: traefik
-  spec:
-    rules:
-    - host:
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: auth-sdc
-            servicePort: 18635
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datacollector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datacollector-deployment
+  template:
+    metadata:
+      labels:
+        app: datacollector-deployment
+    spec:
+      containers:
+      - name: datacollector
+        image: <your SDC image>
+        ports:
+        - containerPort: 18630
+        env:
+        volumeMounts:
+        - name: streamsets-resources 
+          mountPath: /resources
+        - name: sdc-extras 
+          mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs-extras
+      volumes:
+      - name: streamsets-resources
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/resources
+          readOnly: true
+      - name: sdc-extras
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/sdc-extras
+          readOnly: true

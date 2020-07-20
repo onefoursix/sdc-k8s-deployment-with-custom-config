@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: datacollector
-        image: <your custom SDC image>
+        image: <your SDC image>
         ports:
         - containerPort: 18630
         env:
