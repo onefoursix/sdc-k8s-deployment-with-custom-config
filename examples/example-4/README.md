@@ -93,7 +93,7 @@ Inspect the PVC and wait until its status is <code>Bound</code>.  For example he
 #### Step 4: Run a Job to download the SDC Stage Libraries to the Persistent Volume 
 Create a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) that loads the lists of stage libs from the configmap, downloads them from StreamSets' public repo, expands the gzip archives and writes them to the Persistent Volume mounted at <code>/streamsets-libs</code>. 
 
-The Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/Example-3/sdc-stage-libs-job.yaml)
+The Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml)
 
 Run the Job by executing a command like this:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
