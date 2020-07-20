@@ -154,9 +154,10 @@ We can see the three SDC Pods are running (along with the completed Job and our 
 
 
 If all goes well, the three SDC instances will register with Control Hub:
-![sdcs](images/sdc.png)
+![sdcs](images/sdcs.png)
 
 Here we can see (using <code>kubectl port-forward</code>) the installed stage libs for one of the SDCs:
+
 ![sdcs](images/port-forward.png)
 
 
