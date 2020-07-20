@@ -1,8 +1,6 @@
 ## sdc-k8s-deployment-with-custom-config
 
-This project provides examples and guidance for deploying custom configurations of [StreamSets Data Collector](https://streamsets.com/products/dataops-platform/data-collector) (SDC) on Kubernetes using [Control Hub](https://streamsets.com/products/dataops-platform/control-hub).  
-
-* [A note about Environment Variables in SDC deployment manifests](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/EnvVars.md)
+This project provides examples and guidance for deploying custom configurations of [StreamSets Data Collector](https://streamsets.com/products/dataops-platform/data-collector) (SDC) on Kubernetes using [Control Hub](https://streamsets.com/products/dataops-platform/control-hub).  Please see [the note about Environment Variables]((https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/EnvVars.md)) in SDC deployment manifests
 
 * [Example #1: How to set Java Heap Size and other Java Options](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1)
 
