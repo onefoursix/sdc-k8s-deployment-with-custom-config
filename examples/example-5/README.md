@@ -1,4 +1,4 @@
-### Example 4: Loading <code>sdc.properties</code> from a ConfigMap
+### Loading <code>sdc.properties</code> from a ConfigMap
 
 An approach that offers greater flexibility than "baking-in" the <code>sdc.properties</code> file is to dynamically mount an <code>sdc.properties</code> file at deployment time. One way to do that is to store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
 

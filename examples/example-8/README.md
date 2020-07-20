@@ -1,4 +1,4 @@
-### Example 8: Loading keystores and truststores from Secrets
+### Loading keystores and truststores from Secrets
 
 This example showing how to load a keystore and a truststore from a single Secret.
 

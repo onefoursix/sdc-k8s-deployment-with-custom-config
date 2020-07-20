@@ -1,4 +1,4 @@
-### Example 9: Ingress
+### Ingress
 
 Assuming an Ingress Controller is deployed, one can extend Example 1 (reusing the same custom SDC image with its baked-in <code>sdc.properties</code>) by adding a Service and Ingress to the SDC deployment manifest along with these two additional environment variables added to the deployment:
   

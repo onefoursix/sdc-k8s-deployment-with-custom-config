@@ -1,4 +1,4 @@
-### Example 3: Loading SDC Stage Libraries from a Persistent Volume
+### Loading SDC Stage Libraries from a Persistent Volume
  
 This approach uses a  [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to share a set of SDC Stage Libraries with multiple SDC Pods. The stage libs are loaded by SDC Pods at deployment time so there is no need to package them in a custom SDC image in advance (as in Example 2).
 

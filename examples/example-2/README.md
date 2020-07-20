@@ -1,4 +1,4 @@
-### Example 2: Baked-in Configuration and Stage Libraries
+### Baked-in Configuration and Stage Libraries
  
 This example packages a custom <code>sdc.properties</code> file within a custom SDC image, as well as a set of SDC Stage Libraries, at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  
 
