@@ -93,7 +93,7 @@ Inspect the PVC and wait until its status is <code>Bound</code>.  For example he
 #### Step 4: Run a Job to download the SDC Stage Libraries to the Persistent Volume 
 Create a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to populate the Persistent Volume.
 
-An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml);. It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs, and writes them to the directory <code>/streamsets-libs</code> in the Persistent Volume.
+An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml);. It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs, and writes them to the directory <code>/streamsets-libs</code> in the Persistent Volume.  Note that as this Job will launch the first Pod to use the PVC, it will be able to write to the PV. 
 
 Run the Job by executing a command like this:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
@@ -139,7 +139,7 @@ Deploy a [Provisioning Agent](https://streamsets.com/documentation/controlhub/la
             persistentVolumeClaim:
               claimName: sdc-stage-libs-pvc
 
-Specify three instance of SDC and start the deployment. 
+Specify three instance of SDC and start the deployment.  These Pods will load the <code>streamsets-libs</code> directory as a read-only file systems.
 
 
 We can see the three SDC Pods are running (along with the completed Job and our Control Agent):
