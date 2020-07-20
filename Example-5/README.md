@@ -1,70 +1,38 @@
-### Example 5: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps
+### Example 4: Loading <code>sdc.properties</code> from a ConfigMap
 
-This example splits the monolithic <code>sdc.properties</code> file used in Example 4 into two configMaps: one for properties loaded from a file that rarely if ever change (and that can be reused across multiple deployments), and one for dynamic properties targeted for a specific deployment that can be edited inline within the manifest.
+An approach that offers greater flexibility than "baking-in" the <code>sdc.properties</code> file is to dynamically mount an <code>sdc.properties</code> file at deployment time. One way to do that is to store an <code>sdc.properties</code> file in a configMap and to Volume Mount the configMap into the SDC container, overwriting the default <code>sdc.properties</code> file included with the image.
 
-Similar to Example 4, start by copying a clean <code>sdc.properties</code> file to a local working directory.
+The configMap's representation of <code>sdc.properties</code> will be read-only, so one can't use any <code>SDC_CONF_</code> prefixed environment variables in the SDC deployment; all custom property values for properties defined in <code>sdc.properties</code> need to be set in the  configMap (though one can still set <code>SDC_JAVA_OPTS</code> in the environment as that is a "pure" environment variable used by SDC).  
 
-Comment out or delete the small number of properties that need to be set specifically for a deployment, leaving in place the majority of properties to be reused across deployments.  For example, I'll set and include these two properties in the file:
+This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap (see [Example 5]() for a more modular approach).
 
-    http.realm.file.permission.check=false
+Start by copying a clean <code>sdc.properties</code> file to a local working directory. Set all property values you want for a given deployment.  For this example I will set custom values for these properties within the file (alongside all the other properties already in the file):
+
+    sdc.base.http.url=https://sequoia.onefoursix.com
     http.enable.forwarded.requests=true
+    http.realm.file.permission.check=false  # set this to avoid permission issues
+    production.maxBatchSize=20000 
     
-But I will comment out these two properties which I want to set specifically for a given deployment:
+Save the edited <code>sdc.properties</code> file in a configMap named <code>sdc-properties</code> by executing a command like this:
 
-    # sdc.base.http.url=http://<hostname>:<port>
-    # production.maxBatchSize=1000
-    
-One final setting:  append the filename <code>sdc-dynamic.properties</code> to the <code>config.includes</code> property in the <code>sdc.properties</code> file like this:
+    $ kubectl create configmap sdc-properties --from-file=sdc.properties
 
-    config.includes=dpm.properties,vault.properties,credential-stores.properties,sdc-dynamic.properties
+This configMap needs to be created in advance, outside of Control Hub, prior to starting the SDC deployment.
 
-That setting will load the dynamic properties described below.
-
-Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
-
-<code>$ kubectl create configmap sdc-static-properties --from-file=sdc.properties</code>
-
-Once again, the configMap <code>sdc-static-properties</code> can be reused across multiple deployments.
-
-Next, create a manifest named <code>sdc-dynamic-properties.yaml</code> that will contain only properties specific to a given deployment,  For example, my <code>sdc-dynamic-properties.yaml</code> contains  these two properties:
-
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: sdc-dynamic-properties
-    data:
-      sdc-dynamic.properties: |
-        sdc.base.http.url=https://portland.onefoursix.com
-        production.maxBatchSize=20000
-    
-Create the configMap by executing a command like this:
-
-<code>$ kubectl apply -f sdc-dynamic-properties.yaml</code>
-
-Add two Volumes to your SDC deployment manifest like this:
+Add the configMap as a Volume in your SDC deployment manifest like this:
 
     volumes:
-    - name: sdc-static-properties
+    - name: sdc-properties
       configMap:
-        name: sdc-static-properties
-        items:
-        - key: sdc.properties
-          path: sdc.properties
-    - name: sdc-dynamic-properties
-      configMap:
-        name: sdc-dynamic-properties
-        items:
-        - key: sdc-dynamic.properties
-          path: sdc-dynamic.properties
+        name: sdc-properties
         
-And add two Volume Mounts to the SDC container, the first to overwrite the <code>sdc.properties</code> file and the second to add the referenced <code>sdc-dynamic.properties</code> file
+Add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</code> file:
 
     volumeMounts:
-    - name: sdc-static-properties
+    - name: sdc-properties
       mountPath: /etc/sdc/sdc.properties
       subPath: sdc.properties
-    - name: sdc-dynamic-properties
-      mountPath: /etc/sdc/sdc-dynamic.properties
-      subPath: sdc-dynamic.properties
 
- 
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-4/sdc.yaml) for the full manifest.
+
+

@@ -1,3 +1,33 @@
-### Example 7: Loading resources from a read-only Volume
+### Example 6: Loading <code>credential-stores.properties</code> from a Secret
 
-This example showing how to load shared files and other resources from a read-only Volume.  This technique can be used to load any resources needed by SDC at deployment time that are not baked into the SDC image, including, for example, hadoop config files, lookup files, JDBC drivers, etc... 
+This example extends Example 5 by showing how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments (for example, Dev, QA, Prod) and want each environment's SDCs to automatically load the appropriate settings.  
+
+Start by creating a <code>credential-stores.properties</code> file.  For example, a <code>credential-stores.properties</code> file used for Azure Key Vault might look like this:
+
+    credentialStores=azure
+    credentialStore.azure.def=streamsets-datacollector-azure-keyvault-credentialstore-lib::com_streamsets_datacollector_credential_azure_keyvault_AzureKeyVaultCredentialStore
+    credentialStore.azure.config.credential.refresh.millis=30000
+    credentialStore.azure.config.credential.retry.millis=15000
+    credentialStore.azure.config.vault.url=https://mykeyvault.vault.azure.net/
+    credentialStore.azure.config.client.id=[redacted]
+    credentialStore.azure.config.client.key=[redacted]
+    
+Store the <code>credential-stores.properties</code> file in a Secret; I'll name my secret <code>azure-key-vault-credential-store</code>:
+
+    $ kubectl create secret generic azure-key-vault-credential-store --from-file=credential-stores.properties 
+
+In your SDC deployment manifest, create a Volume for the Secret:
+
+    volumes:
+    - name: azure-key-vault-credential-store
+      secret:
+        secretName: azure-key-vault-credential-store
+ 
+And then create a Volume Mount that overwrites the default <code>credential-stores.properties</code> file:
+
+    volumeMounts:
+    - name: azure-key-vault-credential-store
+      mountPath: /etc/sdc/credential-stores.properties
+      subPath: credential-stores.properties
+         
+

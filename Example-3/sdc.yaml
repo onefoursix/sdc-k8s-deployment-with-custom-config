@@ -1,28 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sdc
+  name: datacollector-deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: sdc
+      app: datacollector-deployment
   template:
     metadata:
       labels:
-        app: sdc
+        app: datacollector-deployment
     spec:
       containers:
-      - name: sdc
-        image: streamsets/datacollector:latest
+      - name: datacollector
+        image: <your SDC image>
         ports:
         - containerPort: 18630
         env:
-        - name: SDC_JAVA_OPTS
-          value: "-Xmx2g -Xms2g"
         volumeMounts:
-          - name: sdc-stage-libs
-            mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs
+        - name: streamsets-resources 
+          mountPath: /resources
+        - name: sdc-extras 
+          mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs-extras
       volumes:
-      - name: sdc-stage-libs
-        persistentVolumeClaim:
-          claimName: sdc-stage-libs-pvc
+      - name: streamsets-resources
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/resources
+          readOnly: true
+      - name: sdc-extras
+        nfs:
+          server: nfs1.acme.com
+          path: /share/streamsets/sdc-extras
+          readOnly: true
