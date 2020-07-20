@@ -10,13 +10,7 @@ This project provides examples and guidance for deploying custom configurations 
 
 * [Example #4: Loading <code>sdc.properties</code> from a ConfigMap]()
 
-<<<<<<< HEAD
 * [Example #5: Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps]()
-=======
-### Example 1: Baked-in Configuration (and how to set Java Opts)
- 
-This approach packages a custom <code>sdc.properties</code> file within a custom SDC image at the time the image is built, similar to the example [here](https://github.com/streamsets/control-agent-quickstart/tree/master/custom-datacollector-docker-image).  See the <code>Dockerfile</code> and <code>build.sh</code> artifacts in the [Example 1](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc-docker-custom-config) directory.  
->>>>>>> 84315c3502c06e75148d25705323400dc2563067
 
 * [Example #6: Loading <code>credential-stores.properties</code> from a Secret]()
 
