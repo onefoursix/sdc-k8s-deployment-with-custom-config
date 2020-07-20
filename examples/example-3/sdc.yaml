@@ -22,7 +22,7 @@ spec:
         - name: streamsets-resources 
           mountPath: /resources
         - name: sdc-extras 
-          mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs-extras
+          mountPath: /opt/streamsets-datacollector-3.16.1/streamsets-libs
       volumes:
       - name: streamsets-resources
         nfs:
@@ -32,5 +32,5 @@ spec:
       - name: sdc-extras
         nfs:
           server: nfs1.acme.com
-          path: /share/streamsets/sdc-extras
+          path: /share/streamsets/streamsets-libs
           readOnly: true
