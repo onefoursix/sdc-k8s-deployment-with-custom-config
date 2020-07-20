@@ -6,5 +6,5 @@ Java options, like heap size, can be set at deployment time by setting the <code
     - name: SDC_JAVA_OPTS
       value: "-Xmx4g -Xms4g"
       
-See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-1/sdc.yaml).
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-1/sdc.yaml)
  
