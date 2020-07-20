@@ -145,7 +145,7 @@ Deploy a [Provisioning Agent](https://streamsets.com/documentation/controlhub/la
             persistentVolumeClaim:
               claimName: sdc-stage-libs-pvc
 
-Specify three instance of SDC and start the deployment.  These Pods will load the <code>streamsets-libs</code> directory as a read-only file systems.
+Specify three instance of SDC and start the deployment.  These Pods will load the <code>streamsets-libs</code> directory as a read-only file system.
 
 
 We can see the three SDC Pods are running (along with the completed Job and our Control Agent):
