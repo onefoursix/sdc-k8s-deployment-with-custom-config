@@ -83,7 +83,7 @@ When this PVC is created, it will dynamically create an Azure File-based Persist
 Create the PVC by executing a command like this:
 <code>$ kubectl apply -f sdc-stage-libs-pvc.yaml</code>
 
-Inspect the PVC and wait until the its status is <code>Bound</code>.  For example here's what I see in my environment:
+Inspect the PVC and wait until its status is <code>Bound</code>.  For example here's what I see in my environment:
 
     $ kubectl get pvc
     NAME                 STATUS   VOLUME                                     CAPACITY   ACCESS MODES
