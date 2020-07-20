@@ -6,6 +6,6 @@ This approach is suitable for [execution SDCs](https://streamsets.com/documentat
 
 Set <code>http.realm.file.permission.check=false</code> in your <code>sdc.properties</code> file to avoid permission issues.
 
-See the <code>Dockerfile</code> and <code>build.sh</code> in the [Example 2](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-2/sdc-docker-custom-config) directory. 
+See the  provided <code>Dockerfile</code> and <code>build.sh</code>.
 
  
