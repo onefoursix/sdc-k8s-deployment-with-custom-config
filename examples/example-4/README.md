@@ -9,7 +9,7 @@ There are several Persistent Volume [types](https://kubernetes.io/docs/concepts/
 
 #### Step 1: Create a ConfigMap with a list of stage libs to download
 
-Here is an example ConfigMap that contains two lists:  one for standard SDC stage libs and one for Enterprise stage libs. (Two separate lists are needed because Enterprise stage libs are downloaded from a different URL than standard SDC stage libs):
+Here is an example ConfigMap that contains two lists: one for standard SDC stage libs and one for Enterprise stage libs. (Two separate lists are needed because Enterprise stage libs are downloaded from a different URL than standard SDC stage libs):
 
     apiVersion: v1
     kind: ConfigMap
@@ -91,9 +91,9 @@ Inspect the PVC and wait until its status is <code>Bound</code>.  For example he
 
 
 #### Step 4: Run a Job to download the SDC Stage Libraries to the Persistent Volume 
-Create a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) that loads the lists of stage libs from the configmap, downloads them from StreamSets' public repo, expands the gzip archives and writes them to the Persistent Volume mounted at <code>/streamsets-libs</code>. 
+Create a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to populate the Persistent Volume.
 
-The Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml);. It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs.
+An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml);. It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs, and writes them to the directory <code>/streamsets-libs</code> in the Persistent Volume.
 
 Run the Job by executing a command like this:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
