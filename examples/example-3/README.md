@@ -10,7 +10,7 @@ In this example, assume the Volume has already been populated with the desired f
 
 Here is a view of my Azure File Share from Microsoft's Storage Explorer:
 
-![azure file share](images/azure-file-share.png)
+<img src="images/azure-file-share.png" alt="azure-file-share" width="800"/>
 
 Once the shared volume is populated, it can be added and mounted in an [SDC deployment manifest](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/sdc.yaml).
 
