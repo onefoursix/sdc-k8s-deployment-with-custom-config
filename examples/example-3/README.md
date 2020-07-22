@@ -10,7 +10,7 @@ In this example, assume the Volume has already been populated with the desired f
 
 Here is a view of my Azure File Share populated with a set of stage lilbs::
 
-<img src="images/azure-file-share.png" alt="azure-file-share" width="800"/>
+<img src="images/azure-file-share.png" alt="azure-file-share" width="600"/>
 
 Once the shared volume is populated, it can be added and mounted in an [SDC deployment manifest](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/sdc.yaml).
 
