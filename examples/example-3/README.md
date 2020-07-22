@@ -6,7 +6,7 @@ There are many different Volume [types](https://kubernetes.io/docs/concepts/stor
 
 A pre-populated Volume can provide resources to multiple SDC Pods at deployment time, including stage libs, hadoop config files, lookup files, JDBC drivers, etc... 
 
-In this example, assume the Volume has already been populated with the desired files, in this case a selection of SDC stage libs and Enterprise stage libs. The [get-stage-libs.sh](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/get-stage-libs.sh) script provides an example of how to download stage libs.
+In this example, the Volume has already been populated with a set of SDC stage libs. The [get-stage-libs.sh](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/get-stage-libs.sh) script provides an example of how to download stage libs.
 
 Here is a view of my Azure File Share populated with a set of stage libs:
 
