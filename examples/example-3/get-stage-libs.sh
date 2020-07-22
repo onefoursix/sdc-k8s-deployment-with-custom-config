@@ -13,40 +13,31 @@ SDC_STAGE_LIBS="streamsets-datacollector-aws-lib streamsets-datacollector-basic-
 # A space separated list of enterprise stage libs to download
 SDC_ENTERPRISE_STAGE_LIBS="streamsets-datacollector-databricks-lib-1.0.0 streamsets-datacollector-snowflake-lib-1.4.0 streamsets-datacollector-oracle-lib-1.2.0 streamsets-datacollector-sql-server-bdc-lib-1.0.1"
 
-# tmp dir to unpack the stage libs
-mkdir tmp-stage-libs
-
-# directory to hold the downloaded and extracted stage libs
-rm -rf streamsets-libs
-mkdir streamsets-libs 
-
+# Use a tmp directory to unpack the downloaded stage libs
+mkdir -p tmp-stage-libs
 cd tmp-stage-libs
 
 # Download and extract stage libs
 for s in $SDC_STAGE_LIBS; 
 do 
   wget ${BASE_URL}/${SDC_VERSION}/tarball/${s}-${SDC_VERSION}.tgz; 
-  tar -xvf ${s}-${SDC_VERSION}.tgz ;
-  rm ${s}-${SDC_VERSION}.tgz
+  tar -xvf ${s}-${SDC_VERSION}.tgz;
+  rm ${s}-${SDC_VERSION}.tgz;
 done
 
-# move the stage libs to the streamsets-libs dir
-cp -R streamsets-datacollector-${SDC_VERSION}/streamsets-libs/* ../streamsets-libs
-
-# clean up 
-rm -rf streamsets-datacollector-${SDC_VERSION}
-
 # Download and extract enterprise stage libs
+cd streamsets-datacollector-${SDC_VERSION}
 for s in $SDC_ENTERPRISE_STAGE_LIBS; 
 do 
   wget ${BASE_URL}/latest/tarball/enterprise/${s}.tgz; 
-  tar -xvf ${s}.tgz ;
-  rm -rf ${s}.tgz
+  tar -xvf ${s}.tgz; 
+  rm -rf ${s}.tgz;
 done
 
-# move the enterprise stage libs to the streamsets-libs dir
-cp -R streamsets-libs/* ../streamsets-libs
-cd ..
+cd ../..
 
-# clean up
+# move all the stage libs to the ./streamsets-libs dir
+mv tmp-stage-libs/streamsets-datacollector-${SDC_VERSION}/streamsets-libs .
+
+# remove tmp dir
 rm -rf tmp-stage-libs
