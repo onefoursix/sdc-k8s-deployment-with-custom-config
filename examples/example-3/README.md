@@ -1,6 +1,6 @@
 ### Loading stage libs or other resources from a pre-populated Volume
 
-This example shows how to load resources from a pre-populated Kubernetes [Volume](https://kubernetes.io/docs/concepts/storage/volumes/) (See the next example that covers how to dynamically populate and use a [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)). 
+This example shows how to load resources from a pre-populated Kubernetes [Volume](https://kubernetes.io/docs/concepts/storage/volumes/). (See the next example that covers how to dynamically populate and use a [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)). 
 
 There are many different Volume [types](https://kubernetes.io/docs/concepts/storage/volumes/#types-of-volumes); this example uses an [Azure File Volume](https://docs.microsoft.com/en-us/azure/aks/azure-files-volume). 
 
