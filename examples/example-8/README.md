@@ -33,8 +33,7 @@ In the SDC container spec, add two VolumeMounts that load both files from the Se
 
 Once the SDC container starts, <code>exec</code> into the container to see the two files loaded from the Secret:
 
-    $ kubectl exec -it auth-sdc-84bdc7d58d-w8gt6 -- sh
-    / $ ls -l /etc/sdc | grep "my-"
+    $ kubectl exec -it auth-sdc-84bdc7d58d-w8gt6 -- sh -c 'ls -l /etc/sdc | grep "my-"'
     -rw-r--r--    1 root     root            19 Jul 13 23:41 my-keystore.jks
     -rw-r--r--    1 root     root            21 Jul 13 23:41 my-truststore.jks
 
