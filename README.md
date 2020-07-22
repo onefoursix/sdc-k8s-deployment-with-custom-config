@@ -6,7 +6,7 @@ This project provides examples and guidance for deploying custom configurations 
 
 * [Example #2: Baked-in Configuration](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-2)
 
-* [Example #3: Loading stage libs or other resources from a pre-populated Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-3)
+* [Example #3: Loading Stage Libs or other resources from a pre-populated Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-3)
 
 * [Example #4: Loading Stage Libs from a Persistent Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-4)
 
