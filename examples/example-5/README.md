@@ -33,6 +33,6 @@ Add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</
       mountPath: /etc/sdc/sdc.properties
       subPath: sdc.properties
 
-See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/Example-4/sdc.yaml) for the full manifest.
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-5/sdc.yaml) for the full manifest.
 
 
