@@ -8,7 +8,7 @@ A pre-populated Volume can provide resources to multiple SDC Pods at deployment 
 
 In this example, the Volume has already been populated with a set of SDC stage libs. The [get-stage-libs.sh](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/get-stage-libs.sh) script provides an example of how to download stage libs.
 
-Here is a view of my Azure File Share populated with a set of stage libs:
+Here is a view of my Azure File Share populated with a set of stage libs within a <code>streamsets-libs</code>direcory:
 
 <img src="images/azure-file-share.png" alt="azure-file-share" width="600"/>
 
