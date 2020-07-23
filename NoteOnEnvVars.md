@@ -5,4 +5,4 @@ However, this mechanism is not able to set mixed-case properties in <code>sdc.pr
 
 It's also worth noting that values for environment variables with the prefix "SDC_CONF_" are written to the sdc.properties file by the SDC container's <code>docker-entrypoint.sh</code> script which forces the SDC container to have read/write access to the sdc.properties file, which may not be the case if sdc.properties is mounted with read-only access.
 
-Best practice is to mount* <code>sdc.properties</code> *from a Volume and to avoid using* <code>SDC_CONF\_</code> *environment variables.
+Best practice is to mount <code>sdc.properties</code> from a Volume and to avoid using <code>SDC_CONF\__</code> *environment variables.
