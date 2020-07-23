@@ -36,7 +36,7 @@ Define a Service and Ingress for the SDC Deployment. See [sdc.yaml](https://gith
 
 One can use a single Ingress Controller to route traffic to multiple SDCs.  The Deployment for each SDC must be defined with only a single replica, and each Deployment must be exposed by a Service on a unique NodePort.  An Ingress resource can use routing rules to direct traffic to the appropriate SDC Service.
 
-Two common strategies for Routing Rules are <code>Host-based</code> or <code>Path-based</code>.
+Two common strategies for Routing Rules are <code>Host-based</code> or <code>Path-based</code>. See [here](https://docs.traefik.io/routing/routers/) for Traefik's routing docs and [here](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/#) for NGINX's routing docs.
 
 ##### Host-based Routing Example
 
