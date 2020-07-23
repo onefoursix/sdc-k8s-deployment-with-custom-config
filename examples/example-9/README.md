@@ -38,6 +38,8 @@ One can use a single Ingress Controller to route traffic to multiple SDCs.  The 
 
 Two common strategies for Routing Rules are <code>Host-based</code> or <code>Path-based</code>.
 
+##### Host-based Routing Example
+
 Example manifests for three Authoring SDCs that use <code>Host-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
 
 Each of the three SDCs deployments uses a different hostname for its base URL. For example, sdc1 has this value: 
@@ -54,14 +56,23 @@ sdc3 has this value:
 
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://sdc3.onefoursix.com
+      
 
-A key point is that all three DNS names are mapped to the same IP: the external IP of the Load Balancer (which is also the same IP <code>aks.onefoursix.com</code> is mapped to).
+Each SDC has its own Service that specifies a unique NodePort and an Ingress with a host rule.
+
+All three of those DNS names are mapped to the same IP which is the external IP of the Load Balancer (which is also the same IP <code>aks.onefoursix.com</code> is mapped to).
+
+So all traffic for all three SDCs enters the cluster on the same IP.
 
 
+Inspect the Service and Ingress resources in [sdc1.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc1.yaml) and note the NodePort in the Service and the Host rule in the Ingress; compare those with [sdc2.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc2.yaml) and [sdc3.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc3.yaml) 
 
-Each Service specifies a unique NodePort and each Ingress has a host rule.
 
-Here are the Service and Ingress resources from the [sdc1.yaml]() that has host-based routing:
+##### Path-based Routing Example
+
+Under Construction
+
+
 
 
 
