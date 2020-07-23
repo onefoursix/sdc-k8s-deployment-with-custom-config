@@ -38,7 +38,7 @@ One can use a single Ingress Controller to route traffic to multiple SDCs.  The 
 
 Two common strategies for Routing Rules are <code>Host-based</code> or <code>Path-based</code>.
 
-Example manifests for three Authoring SDCs that use Host-based routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
+Example manifests for three Authoring SDCs that use <code>Host-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
 
 Each of the three SDCs deployments uses a different hostname for its base URL. For example, sdc1 has this value: 
 
