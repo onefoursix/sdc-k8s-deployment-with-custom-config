@@ -29,5 +29,7 @@ And then create a Volume Mount that overwrites the default <code>credential-stor
     - name: azure-key-vault-credential-store
       mountPath: /etc/sdc/credential-stores.properties
       subPath: credential-stores.properties
+      
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-7/sdc.yaml) for an example manifest.
          
 
