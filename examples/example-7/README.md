@@ -31,5 +31,7 @@ And then create a Volume Mount that overwrites the default <code>credential-stor
       subPath: credential-stores.properties
       
 See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-7/sdc.yaml) for an example manifest.
+
+The example manifest will need to be extended to load the Azure Key Vault Credentials Store stage library (using one of the mechanisms described in the previous examples) to actually run.
          
 
