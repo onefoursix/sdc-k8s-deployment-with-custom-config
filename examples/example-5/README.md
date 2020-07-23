@@ -33,6 +33,16 @@ Add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</
       mountPath: /etc/sdc/sdc.properties
       subPath: sdc.properties
 
-See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-5/sdc.yaml) for the full manifest.
+Create and start a Control Hub deployment using those settings and confirm the expected values are set in sdc.properties.
+
+For example:
+
+    $ kubectl get pods | grep sdc
+    sdc-59d44698b9-kvd7n             1/1     Running   0          2m54s
+    
+    $ kubectl exec -it sdc-59d44698b9-kvd7n -- sh -c 'grep 'production.maxBatchSize' /etc/sdc/sdc.properties'
+    production.maxBatchSize=20000
+
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-5/sdc.yaml) for the manifest.
 
 
