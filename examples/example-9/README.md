@@ -31,5 +31,17 @@ I saved a wildcard cert and key for that domain in a Secret that Traefik uses:
       --from-file=tls.key
 
 
-See [sdc.yaml]() for the full deployment manifest.
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example.
+
+#### Routing to Multiple SDCs using a single Ingress Controller
+
+One can use a single Ingress Controller to route traffic to multiple SDCs.  The Deployment for each SDC must be defined with only a single replica, and each Deployment must be exposed by a Service on a unique NodePort.  An Ingress resource can use routing rules to direct traffic to the appropriate SDC Service.
+
+Two common strategies for Routing Rules are Host-based or Path-based.
+
+Example manifests for three Authoring SDCs that use Host-based routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing)
+
+
+
+
 
