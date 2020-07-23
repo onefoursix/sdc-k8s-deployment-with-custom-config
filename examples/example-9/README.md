@@ -39,7 +39,30 @@ One can use a single Ingress Controller to route traffic to multiple SDCs.  The 
 
 Two common strategies for Routing Rules are Host-based or Path-based.
 
-Example manifests for three Authoring SDCs that use Host-based routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing)
+Example manifests for three Authoring SDCs that use Host-based routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
+
+Each of the three SDCs deployments uses a different hostname for its base URL. For example, sdc1 has this value: 
+
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://sdc1.onefoursix.com
+
+sdc2 has this value: 
+
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://sdc2.onefoursix.com
+
+sdc3 has this value:
+
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://sdc3.onefoursix.com
+
+A key point is that all three DNS names are mapped to the same IP: the external IP of the Load Balancer (which is also the same IP <code>aks.onefoursix.com</code> is mapped to).
+
+
+
+Each Service specifies a unique NodePort and each Ingress has a host rule.
+
+Here are the Service and Ingress resources from the [sdc1.yaml]() that has host-based routing:
 
 
 
