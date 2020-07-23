@@ -30,8 +30,7 @@ I saved a wildcard cert and key for that domain in a Secret that Traefik uses:
       --from-file=tls.crt \
       --from-file=tls.key
 
-
-See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example.
+Define a Service and Ingress for the SDC Deployment. See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example.
 
 #### Routing to Multiple SDCs using a single Ingress Controller
 
