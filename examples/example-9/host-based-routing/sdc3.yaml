@@ -4,21 +4,21 @@ items:
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: sdc
+    name: sdc3
     labels:
-      app: sdc
+      app: sdc3
   spec:
     replicas: 1
     selector:
       matchLabels:
-        app: sdc
+        app: sdc3
     template:
       metadata:
         labels:
-          app: sdc
+          app: sdc3
       spec:
         containers:
-        - name: sdc
+        - name: sdc3
           image: streamsets/datacollector:latest
           ports:
           - containerPort: 18630
@@ -26,36 +26,36 @@ items:
           - name: SDC_JAVA_OPTS
             value: "-Xmx4g -Xms4g"
           - name: SDC_CONF_SDC_BASE_HTTP_URL
-            value: https://aks.onefoursix.com
+            value: https://sdc3.onefoursix.com
           - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
             value: true
 - apiVersion: v1
   kind: Service
   metadata:
-    name: sdc
+    name: sdc3
     labels:
-      app: sdc
+      app: sdc3
   spec:
     type: NodePort
     ports:
     - name: http
-      port: 18635
+      port: 18637
       targetPort: 18630
       protocol: TCP
     selector:
-      app: sdc
+      app: sdc3
 - apiVersion: extensions/v1beta1
   kind: Ingress
   metadata:
-    name: sdc
+    name: sdc3
     annotations:
       kubernetes.io/ingress.class: traefik
   spec:
     rules:
-    - host:
+    - host: sdc3.onefoursix.com
       http:
         paths:
         - path: /
           backend:
-            serviceName: sdc
-            servicePort: 18635
+            serviceName: sdc3
+            servicePort: 18637
