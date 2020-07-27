@@ -10,39 +10,17 @@ If the SDC's <code>sdc.properties</code> file is packaged within the SDC image, 
     - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
       value: true
 
-If <code>sdc.properties</code> is mounted with read-only permissions, then these two properties may be set in a configMap as shown in [Example 5](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-5) or [Example 6](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-6)
+If <code>sdc.properties</code> is mounted with read-only permissions, these two properties may be set in a configMap as shown in [Example 5](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-5) or [Example 6](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-6)
 
-There are [many choices of Ingress Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers); for this example I'll deploy [Traefik v1.7](https://github.com/helm/charts/tree/master/stable/traefik) as AKS as a <code>LoadBalancer</code> which is an option when deploying an Ingress Controller in public cloud-based Kubernetes Services (see the post [here](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0) for background).
-
-Assuming your Ingress Controller is deployed as a LoadBalancer, the Ingress Controller Service will be assigned an external IP.  Here is what I see in my environment after deploying Traefik:
-
-    $ kubectl get svc
-    NAME                      TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S) 
-    traefik-ingress-service   LoadBalancer   10.0.254.51   20.42.150.93   80:32201/TCP,443:32339/TCP,8080:31270/TCP
-
-My Ingress Controller was assigned the external IP <code>20.42.150.93</code>.
-
-I'll map that IP address to the hostname <code>aks.onefoursix.com</code> by adding an A record to my DNS (I control the <code>onefoursix.com</code> domain).
-
-I saved a wildcard cert and key for that domain in a Secret that Traefik uses:
-
-    $ kubectl create secret generic traefik-cert \
-      --from-file=tls.crt \
-      --from-file=tls.key
-
-Define a Service and Ingress for the SDC Deployment. See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example.
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example manifest that includes an SDC Deployment, Service and Ingress.
 
 #### Routing to Multiple SDCs using a single Ingress Controller
 
-One can use a single Ingress Controller to route traffic to multiple SDCs.  The Deployment for each SDC must be defined with only a single replica, and each Deployment must be exposed by a Service on a unique NodePort.  An Ingress resource can use routing rules to direct traffic to the appropriate SDC Service.
-
-Two common strategies for Routing Rules are <code>Host-based</code> or <code>Path-based</code>. See [here](https://docs.traefik.io/routing/routers/) for Traefik's routing docs and [here](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/#) for NGINX's routing docs.
+One can use a single Ingress Controller to route traffic to multiple SDCs, using Ingress routing rules. Routing rules can be <code>Host-based</code> or <code>Path-based</code>. 
 
 ##### Host-based Routing Example
 
-Example manifests for three Authoring SDCs that use <code>Host-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
-
-Each of the three SDCs deployments uses a different hostname for its base URL. 
+In this example, three SDC deployments each use a different hostname as their base URL. 
 
 For example, sdc1 has this value: 
 
@@ -59,24 +37,81 @@ sdc3 has this value:
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://sdc3.onefoursix.com
       
+All three of those host names are added as DNS Aliases that all point to the same address: the external IP of the Load Balancer.
 
-Each SDC has its own Service that specifies a unique NodePort and an Ingress with a host rule.
-
-All three of those DNS names are mapped to the same IP which is the external IP of the Load Balancer (which is also the same IP <code>aks.onefoursix.com</code> is mapped to).
-
-So all traffic for all three SDCs enters the cluster on the same IP.
+Each SDC has its own Service that specifies a unique NodePort and an Ingress with a host rule. Here is the Ingress for <code>sdc1</code> with a rule that ensures that requests with the hostname <code>sdc1.onefoursix.com</code> are routed to the <code>sdc1</code> Service:
 
 
-Inspect the Service and Ingress resources in [sdc1.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc1.yaml) and note the NodePort in the Service and the Host rule in the Ingress; compare those with [sdc2.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc2.yaml) and [sdc3.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/host-based-routing/sdc3.yaml) 
+    apiVersion: extensions/v1beta1
+      kind: Ingress
+      metadata:
+        name: sdc1
+        annotations:
+          kubernetes.io/ingress.class: nginx
+      spec:
+        tls:
+        - hosts:
+          - sdc1.onefoursix.com
+          secretName: streamsets-tls
+        rules:
+        - host: sdc1.onefoursix.com
+          http:
+            paths:
+            - path: /
+              backend:
+                serviceName: sdc1
+                servicePort: 18635
+                
+                
+Example manifests for three SDCs that use <code>Host-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
 
 
 ##### Path-based Routing Example
 
-Under Construction
+In this example, the three SDCs share a common base URL, but have unique paths, like this:
 
 
+sdc1 has this value: 
+    
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://saturn.onefoursix.com/sdc1/
+    
+sdc2 has this value: 
+    
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://saturn.onefoursix.com/sdc2/
+    
+sdc3 has this value:
+    
+    - name: SDC_CONF_SDC_BASE_HTTP_URL
+      value: https://saturn.onefoursix.com/sdc3/
 
 
+Ingress is defined using a regular expression to match the request path along with a [<code>rewrite-target</code> annotation](https://kubernetes.github.io/ingress-nginx/examples/rewrite/#rewrite).
 
+Here is an example of Ingress for <code>sdc1</code>:
 
+    - apiVersion: extensions/v1beta1
+      kind: Ingress
+      metadata:
+        name: sdc1
+        namespace: ns1
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+          nginx.ingress.kubernetes.io/rewrite-target: /$2
+      spec:
+        tls:
+        - hosts:
+          - saturn.onefoursix.com
+          secretName: streamsets-tls
+        rules:
+        - host: saturn.onefoursix.com
+          http:
+            paths:
+            - path: /sdc1(/|$)(.*)
+              backend:
+                serviceName: sdc1
+                servicePort: 18635
 
+Example manifests for three SDCs that use <code>path-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/path-based-routing).

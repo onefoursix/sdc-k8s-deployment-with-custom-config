@@ -4,21 +4,22 @@ items:
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: sdc2
+    name: sdc1
+    namespace: ns1
     labels:
-      app: sdc2
+      app: sdc1
   spec:
     replicas: 1
     selector:
       matchLabels:
-        app: sdc2
+        app: sdc1
     template:
       metadata:
         labels:
-          app: sdc2
+          app: sdc1
       spec:
         containers:
-        - name: sdc2
+        - name: sdc1
           image: streamsets/datacollector:latest
           ports:
           - containerPort: 18630
@@ -26,40 +27,44 @@ items:
           - name: SDC_JAVA_OPTS
             value: "-Xmx4g -Xms4g"
           - name: SDC_CONF_SDC_BASE_HTTP_URL
-            value: https://sdc2.onefoursix.com
+            value: https://saturn.onefoursix.com/sdc1/
           - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
             value: true
 - apiVersion: v1
   kind: Service
   metadata:
-    name: sdc2
+    name: sdc1
+    namespace: ns1
     labels:
-      app: sdc2
+      app: sdc1
   spec:
     type: NodePort
     ports:
     - name: http
-      port: 18636
+      port: 18635
       targetPort: 18630
       protocol: TCP
     selector:
-      app: sdc2
+      app: sdc1
 - apiVersion: extensions/v1beta1
   kind: Ingress
   metadata:
-    name: sdc2
+    name: sdc1
+    namespace: ns1
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
   spec:
     tls:
     - hosts:
-      - sdc2.onefoursix.com
+      - saturn.onefoursix.com
       secretName: streamsets-tls
     rules:
-    - host: sdc2.onefoursix.com
+    - host: saturn.onefoursix.com
       http:
         paths:
-        - path: /
+        - path: /sdc1(/|$)(.*)
           backend:
-            serviceName: sdc2
-            servicePort: 18636
+            serviceName: sdc1
+            servicePort: 18635

@@ -26,7 +26,7 @@ items:
           - name: SDC_JAVA_OPTS
             value: "-Xmx4g -Xms4g"
           - name: SDC_CONF_SDC_BASE_HTTP_URL
-            value: https://aks.onefoursix.com
+            value: https://saturn.onefoursix.com
           - name: SDC_CONF_HTTP_ENABLE_FORWARDED_REQUESTS
             value: true
 - apiVersion: v1
@@ -49,8 +49,12 @@ items:
   metadata:
     name: sdc
     annotations:
-      kubernetes.io/ingress.class: traefik
+      kubernetes.io/ingress.class: nginx
   spec:
+    tls:
+    - hosts:
+      - saturn.onefoursix.com
+      secretName: streamsets-tls
     rules:
     - host:
       http:

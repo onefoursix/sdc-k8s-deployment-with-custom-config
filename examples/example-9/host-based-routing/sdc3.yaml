@@ -49,8 +49,12 @@ items:
   metadata:
     name: sdc3
     annotations:
-      kubernetes.io/ingress.class: traefik
+      kubernetes.io/ingress.class: nginx
   spec:
+    tls:
+    - hosts:
+      - sdc3.onefoursix.com
+      secretName: streamsets-tls
     rules:
     - host: sdc3.onefoursix.com
       http:
