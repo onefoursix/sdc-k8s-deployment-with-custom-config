@@ -8,11 +8,11 @@ A pre-populated Volume can provide resources to multiple SDC Pods at deployment 
 
 In this example, the Volume has already been populated with a set of SDC stage libs. The [get-stage-libs.sh](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-3/get-stage-libs.sh) script provides an example of how to download stage libs.
 
-Here is a view of my Azure File Share populated with a set of stage libs within a <code>streamsets-libs</code>directory:
+Here is a view of an Azure File Share populated with a set of stage libs within a <code>streamsets-libs</code>directory:
 
 <img src="images/azure-file-share.png" alt="azure-file-share" width="600"/>
 
-Store the connection properties in an Secret named <code>azure-secret</code> 
+Store the connection properties in a Secret named <code>azure-secret</code> 
 
     $ kubectl create secret generic azure-secret \
        --from-literal=azurestorageaccountname=<STORAGE ACCOUNT NAME> \
@@ -53,7 +53,7 @@ Here is an example manifest for a Control Hub-based deployment that mounts the c
               readOnly: true
      
 
-After starting a deployment, one can inspect the installed stage libs in the deployed SDCs. For example I deployed two instances of SDC and can see the Pods are running:
+After starting a deployment, one can inspect the installed stage libs in the deployed SDCs. For example here are Pods for two instances of SDC:
 
     $ kubectl get pods | grep sdc
     sdc-69bd8dcc78-x2bs2             1/1     Running   0          17m

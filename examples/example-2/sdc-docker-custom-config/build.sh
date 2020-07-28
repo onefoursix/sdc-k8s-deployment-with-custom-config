@@ -5,7 +5,7 @@
 # The Dockerfile copies those libs into the SDC image as well as a custom sdc.properties file
 
 # Your custom image
-IMAGE_NAME=onefoursix/sdc:latest
+IMAGE_NAME=<your custom SDC image name>
 
 # SDC Version
 SDC_VERSION=3.16.1
