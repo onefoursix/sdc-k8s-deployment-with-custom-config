@@ -4,7 +4,7 @@ An approach that offers greater flexibility than "baking-in" the <code>sdc.prope
 
 The configMap's representation of <code>sdc.properties</code> will be read-only, so one can't use any <code>SDC_CONF_</code> prefixed environment variables in the SDC deployment; all custom property values for properties defined in <code>sdc.properties</code> need to be set in the  configMap (though one can still set <code>SDC_JAVA_OPTS</code> in the environment as that is a "pure" environment variable used by SDC).  
 
-This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap (see [Example 5]() for a more modular approach).
+This example uses one monolithic <code>sdc.properties</code> file stored in a single configMap (see [Example 6]() for a more modular approach).
 
 Start by copying a clean <code>sdc.properties</code> file to a local working directory. Set all property values you want for a given deployment.  For this example I will set custom values for these properties within the file (alongside all the other properties already in the file):
 
