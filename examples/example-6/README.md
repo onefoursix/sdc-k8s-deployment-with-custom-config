@@ -20,7 +20,7 @@ One final setting:  append the filename <code>sdc-dynamic.properties</code> to t
 
 That setting will load the dynamic properties described below.
 
-Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing a command like this:
+Save the <code>sdc.properties</code> file in a configMap named <code>sdc-static-properties</code> by executing the command:
 
 <code>$ kubectl create configmap sdc-static-properties --from-file=sdc.properties</code>
 
@@ -37,7 +37,7 @@ Next, create a manifest named <code>sdc-dynamic-properties.yaml</code> that will
         sdc.base.http.url=https://portland.onefoursix.com
         production.maxBatchSize=20000
     
-Create the configMap by executing a command like this:
+Create the configMap by executing the command:
 
 <code>$ kubectl apply -f sdc-dynamic-properties.yaml</code>
 
