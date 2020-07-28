@@ -16,6 +16,8 @@ See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-conf
 
 One can also use a single Ingress Controller to route traffic to multiple SDCs, using either <code>Host-based</code> or <code>Path-based</code> Ingress routing rules. 
 
+The following two examples were tested using the [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Ingress Controller.
+
 #### Host-based Routing Example
 
 In this example, three SDC deployments each use a different hostname as their base URL. 
