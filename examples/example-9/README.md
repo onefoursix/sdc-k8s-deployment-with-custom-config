@@ -114,4 +114,9 @@ Here is an example of Ingress for <code>sdc1</code>:
                 serviceName: sdc1
                 servicePort: 18635
 
+
+Here is an example of an SDC UI reached using path-based routing:
+
+![path-based-routing](images/path-based-routing.png)
+
 Example manifests for three SDCs that use <code>path-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/path-based-routing).
