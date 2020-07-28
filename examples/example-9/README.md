@@ -113,7 +113,7 @@ Here is an example of Ingress for <code>sdc1</code>:
                 servicePort: 18635
 
 
-Here is an example of an SDC UI reached using path-based routing:
+Here is an example of sdc1's UI reached using path-based routing:
 
 <img src="images/path-based-routing.png" alt="path-based-routing" width="800"/>
 
