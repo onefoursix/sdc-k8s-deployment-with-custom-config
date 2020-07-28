@@ -89,7 +89,7 @@ sdc3 has this value:
 
 Ingress is defined using a regular expression to match the request path along with a [<code>rewrite-target</code> annotation](https://kubernetes.github.io/ingress-nginx/examples/rewrite/#rewrite).
 
-Here is an example of Ingress for <code>sdc1</code>:
+Here is an example of Ingress for <code>sdc1</code> using a path-based routing rule:
 
     - apiVersion: extensions/v1beta1
       kind: Ingress
