@@ -57,7 +57,7 @@ Here is an example StorageClass for an Azure File Volume:
     parameters:
       skuName: Standard_LRS
 
-Create the StorageClass by executing a command like this:
+Create the StorageClass by executing the command:
 <code>$ kubectl apply -f sdc-stage-libs-sc.yaml</code>
       
       
@@ -80,7 +80,7 @@ Create a Persistent Volume Claim (PVC) with both <code>ReadWriteOnce</code> and 
 
 When this PVC is created, it will dynamically create an Azure File-based Persistent Volume.
 
-Create the PVC by executing a command like this:
+Create the PVC by executing the command:
 <code>$ kubectl apply -f sdc-stage-libs-pvc.yaml</code>
 
 Inspect the PVC and wait until its status is <code>Bound</code>.  For example here's what I see in my environment:
@@ -97,7 +97,7 @@ An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deploymen
 
 As this Job launches the first Pod to use the PVC, it will be able to take advantage of the <code>ReadWriteOnce</code> AccessMode and write to the PV. 
 
-Run the Job by executing a command like this:
+Run the Job by executing the command:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
 
 Tail the log of the Job's Pod to see download progress:
