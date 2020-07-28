@@ -4,7 +4,7 @@ This project provides examples and guidance for deploying custom configurations 
 
 * [Example #1: How to set Java Heap Size and other Java Options](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-1)
 
-* [Example #2: Baked-in stage libs and configuration](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-2)
+* [Example #2: Baked-in Stage Libs and Configuration](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-2)
 
 * [Example #3: Loading Stage Libs or other resources from a pre-populated Volume](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-3)
 

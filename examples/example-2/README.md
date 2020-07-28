@@ -1,4 +1,4 @@
-### Baked-in Configuration and Stage Libraries
+### Baked-in Stage Libraries and Configuration
  
 This example packages a custom <code>sdc.properties</code> file within a custom SDC image, along with a set of SDC stage libs (including Enterprise stage libs), at the time the image is built.  
 
