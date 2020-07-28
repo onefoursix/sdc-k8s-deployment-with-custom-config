@@ -19,5 +19,3 @@ This project provides examples and guidance for deploying custom configurations 
 * [Example #8: Loading keystores and truststores from a Secret](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-8)
 
 * [Example #9: Ingress](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9)
-
-* [Example #10: A complete example](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-10)
