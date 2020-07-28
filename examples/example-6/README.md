@@ -34,7 +34,7 @@ Next, create a manifest named <code>sdc-dynamic-properties.yaml</code> that will
       name: sdc-dynamic-properties
     data:
       sdc-dynamic.properties: |
-        sdc.base.http.url=https://portland.onefoursix.com
+        sdc.base.http.url=https://sequoia.onefoursix.com
         production.maxBatchSize=20000
     
 Create the configMap by executing the command:
