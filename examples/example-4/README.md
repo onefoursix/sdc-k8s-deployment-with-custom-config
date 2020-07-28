@@ -100,7 +100,7 @@ As this Job launches the first Pod to use the PVC, it will be able to take advan
 Run the Job by executing the command:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
 
-You can tail the log of the Job's Pod to see the progress of the stage libs' downloads progress:
+You can tail the log of the Job's Pod to see the progress of the stage libs downloads:
 
 <code>$ kubectl logs -f sdc-stage-libs-job-4xtln</code>
 
