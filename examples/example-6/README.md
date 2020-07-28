@@ -67,4 +67,6 @@ And add two Volume Mounts to the SDC container, the first to overwrite the <code
       mountPath: /etc/sdc/sdc-dynamic.properties
       subPath: sdc-dynamic.properties
 
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-6/sdc.yaml) for the manifest.
+
  
