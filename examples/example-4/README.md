@@ -93,14 +93,14 @@ Inspect the PVC and wait until its status is <code>Bound</code>.  For example he
 #### Step 4: Run a Job to download the SDC Stage Libraries to the Persistent Volume 
 Create a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to populate the Persistent Volume.
 
-An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml);. It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs, and writes them to the directory <code>/streamsets-libs</code> in the Persistent Volume.  
+An example Job is defined [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-4/sdc-stage-libs-job.yaml). It spins up a [BusyBox](https://www.busybox.net/about.html) container that uses shell commands to download and extract the stage libs, and writes them to the directory <code>/streamsets-libs</code> in the Persistent Volume.  
 
-As this Job launches the first Pod to use the PVC, it will be able to take advantage of the <code>ReadWriteOnce</code> AccessMode and write to the PV. 
+As this Job launches the first Pod to use the PVC, it will be able to take advantage of the <code>ReadWriteOnce</code> access mode and write to the PV. 
 
 Run the Job by executing the command:
 <code>$ kubectl apply -f sdc-stage-libs-job.yaml</code>
 
-Tail the log of the Job's Pod to see download progress:
+You can tail the log of the Job's Pod to see the progress of the stage libs' downloads progress:
 
 <code>$ kubectl logs -f sdc-stage-libs-job-4xtln</code>
 
