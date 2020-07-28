@@ -119,4 +119,4 @@ Here is an example of sdc1's UI reached using path-based routing:
 
 <img src="images/path-based-routing.png" alt="path-based-routing" width="800"/>
 
-Example manifests for three SDCs that use <code>path-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/path-based-routing).
+Example manifests for three SDCs that use path-based routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/path-based-routing).
