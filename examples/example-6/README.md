@@ -2,9 +2,9 @@
 
 This example splits the monolithic <code>sdc.properties</code> file used in Example 5 into two configMaps: one for properties loaded from a file that rarely if ever change (and that can be reused across multiple deployments), and one for dynamic properties targeted for a specific deployment that can be edited inline within the manifest.
 
-Similar to Example 4, start by copying a clean <code>sdc.properties</code> file to a local working directory.
+Similar to Example 5, start by copying a clean <code>sdc.properties</code> file to a local working directory.
 
-Comment out or delete the small number of properties that need to be set specifically for a deployment, leaving in place the majority of properties to be reused across deployments.  For example, I'll set and include these two properties in the file:
+Set values for properties that will rarely change, and comment out or delete the small number of properties that need to be set specifically for a deployment, leaving in place the properties to be reused across deployments.  For example, I'll set and include these two properties in the file:
 
     http.realm.file.permission.check=false
     http.enable.forwarded.requests=true
