@@ -1,6 +1,6 @@
 ### Loading <code>credential-stores.properties</code> from a Secret
 
-This example extends Example 5 by showing how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments (for example, Dev, QA, Prod) and want each environment's SDCs to automatically load the appropriate settings.  
+This example shows how to load a <code>credential-stores.properties</code> file from a Secret.  This technique is useful if you have different credential stores in different environments (for example, Dev, QA, Prod) and want each environment's SDCs to automatically load the appropriate settings.  
 
 Start by creating a <code>credential-stores.properties</code> file.  For example, a <code>credential-stores.properties</code> file used for Azure Key Vault might look like this:
 
