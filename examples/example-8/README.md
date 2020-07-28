@@ -1,6 +1,6 @@
 ### Ingress
 
-In addition to an SDC Deployment, one can include Service and Ingress resources within a Control Hub-based deployment manifest, assuming an Ingress Controller has already been deployed. This allows end users to reach the SDC UI over HTTP or HTTPS.  An SDC reachable over HTTPS can serve as an [Authoring Data Collector](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/PDesigner_AuthoringSDC.html?hl=authoring%2Cdata%2Ccollectors).
+If an [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) has been deployed, one can include Service and Ingress resources within a Control Hub-based deployment. This allows end users to reach the SDC UI over HTTP or HTTPS.  An SDC reachable over HTTPS can serve as an [Authoring Data Collector](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/PDesigner_AuthoringSDC.html?hl=authoring%2Cdata%2Ccollectors).
 
 If the SDC's <code>sdc.properties</code> file is packaged within the SDC image, or is mounted with read/write permissions on an appropriate Volume. one can set these two environment variables within the SDC deployment manifest's container <code>env</code> section:
 
