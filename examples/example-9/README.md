@@ -14,11 +14,9 @@ If <code>sdc.properties</code> is mounted with read-only permissions, these two 
 
 See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example manifest that includes an SDC Deployment, Service and Ingress.
 
-#### Routing to Multiple SDCs using a single Ingress Controller
-
 One can use a single Ingress Controller to route traffic to multiple SDCs, using Ingress routing rules. Routing rules can be <code>Host-based</code> or <code>Path-based</code>. 
 
-##### Host-based Routing Example
+#### Host-based Routing Example
 
 In this example, three SDC deployments each use a different hostname as their base URL. 
 
@@ -66,7 +64,7 @@ Each SDC has its own Service that specifies a unique NodePort and an Ingress wit
 Example manifests for three SDCs that use <code>Host-based</code> routing are in the directory [here](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-9/host-based-routing).
 
 
-##### Path-based Routing Example
+#### Path-based Routing Example
 
 In this example, the three SDCs share a common base URL, but have unique paths, like this:
 
