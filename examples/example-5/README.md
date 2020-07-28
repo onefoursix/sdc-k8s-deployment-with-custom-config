@@ -26,7 +26,7 @@ Add the configMap as a Volume in your SDC deployment manifest like this:
       configMap:
         name: sdc-properties
         
-Add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</code> file:
+And add a Volume Mount to the SDC container, to overwrite the <code>sdc.properties</code> file:
 
     volumeMounts:
     - name: sdc-properties
