@@ -1,6 +1,6 @@
 ### Loading static and dynamic <code>sdc.properties</code> from separate ConfigMaps
 
-This example splits the monolithic <code>sdc.properties</code> file used in Example 4 into two configMaps: one for properties loaded from a file that rarely if ever change (and that can be reused across multiple deployments), and one for dynamic properties targeted for a specific deployment that can be edited inline within the manifest.
+This example splits the monolithic <code>sdc.properties</code> file used in Example 5 into two configMaps: one for properties loaded from a file that rarely if ever change (and that can be reused across multiple deployments), and one for dynamic properties targeted for a specific deployment that can be edited inline within the manifest.
 
 Similar to Example 4, start by copying a clean <code>sdc.properties</code> file to a local working directory.
 
