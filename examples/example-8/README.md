@@ -2,7 +2,7 @@
 
 If an [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) has been deployed, one can include [Service](https://kubernetes.io/docs/concepts/services-networking/service/) and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resources within a Control Hub-based deployment. This allows end users to reach the SDC UI over HTTP or HTTPS.  An SDC reachable over HTTPS can serve as an [Authoring Data Collector](https://streamsets.com/documentation/controlhub/latest/help/controlhub/UserGuide/DataCollectors/PDesigner_AuthoringSDC.html?hl=authoring%2Cdata%2Ccollectors).
 
-If the SDC's <code>sdc.properties</code> file is packaged within the SDC image, or is mounted with read/write permissions on an appropriate Volume. one can set these two environment variables within the SDC deployment manifest's container <code>env</code> section, the first of which specifies the URL SDC will be reachable at:
+If the SDC's <code>sdc.properties</code> file is packaged within the SDC image, or is mounted with read/write permissions on an appropriate Volume, one can set these two environment variables within the SDC deployment manifest's container <code>env</code> section, the first of which specifies the URL SDC will be reachable at:
 
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://<your ingress host>[:<your ingress port>]
