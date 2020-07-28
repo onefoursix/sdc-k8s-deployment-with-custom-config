@@ -53,15 +53,15 @@ Here is an example manifest for a Control Hub-based deployment that mounts the c
               readOnly: true
      
 
-After starting a deployment, one can inspect the installed stage libs in the deployed SDCs. For example here are Pods for two instances of SDC:
+After starting a deployment, one can inspect the installed stage libs in the deployed SDCs. For example, here are Pods for two instances of SDC:
 
     $ kubectl get pods | grep sdc
     sdc-69bd8dcc78-x2bs2             1/1     Running   0          17m
     sdc-69bd8dcc78-z9wtj             1/1     Running   0          17m
 
-Run an <code>exec</code> command in the container to see the installed stage-libs:
+Run an <code>exec</code> command in the container to see the installed stage-libs (including Enterprise stage libs):
 
-    $ % kubectl exec -it sdc-69bd8dcc78-x2bs2 -- bash -c "ls /opt/streamsets-*/streamsets-libs"
+    $ kubectl exec -it sdc-69bd8dcc78-x2bs2 -- bash -c "ls /opt/streamsets-*/streamsets-libs"
     streamsets-datacollector-aws-lib
     streamsets-datacollector-basic-lib
     streamsets-datacollector-bigtable-lib
