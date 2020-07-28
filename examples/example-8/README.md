@@ -22,7 +22,7 @@ The following two examples were tested using the [ingress-nginx](https://kuberne
 
 In this example, three SDC deployments each use a different hostname as their base URL. 
 
-For example, sdc1 has this value: 
+sdc1 has this value: 
 
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://sdc1.onefoursix.com
@@ -37,7 +37,7 @@ sdc3 has this value:
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://sdc3.onefoursix.com
       
-All three of those host names are added as DNS Aliases that all point to the same address: the external IP of the Load Balancer.
+These three host names must be added as DNS Aliases that all point to the the external IP of the Load Balancer (by a DNS admin for your domain).
 
 Each SDC has its own Service that specifies a unique NodePort and an Ingress with a host rule. Here is the Ingress for <code>sdc1</code> with a rule that ensures that requests with the hostname <code>sdc1.onefoursix.com</code> are routed to the <code>sdc1</code> Service:
 
