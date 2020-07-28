@@ -22,7 +22,7 @@ The following two examples were tested using the [ingress-nginx](https://kuberne
 
 In this example, three SDC deployments each use a different hostname as their base URL, with all three hostnames mapped in DNS to the same address (the front end of the Ingress Controller) and [host-based routing rules](https://kubernetes.github.io/ingress-nginx/user-guide/basic-usage/) map requests to the appropriate SDC.  This approach requires permissions to add alias records to the domain's DNS (the next example does not need any additional permissions). 
 
-sdc1 has this value: 
+In the deployment manifests for these three SDCs, sdc1 has this value: 
 
     - name: SDC_CONF_SDC_BASE_HTTP_URL
       value: https://sdc1.onefoursix.com
