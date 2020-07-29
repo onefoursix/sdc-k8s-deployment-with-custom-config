@@ -12,7 +12,7 @@ If the SDC's <code>sdc.properties</code> file is packaged within the SDC image, 
 
 If <code>sdc.properties</code> is mounted with read-only permissions, these two properties may be set in a configMap as shown in [Example 5](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-5) or [Example 6](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/tree/master/examples/example-6)
 
-See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-9/sdc.yaml) for an example manifest that includes an SDC Deployment, Service and Ingress.
+See [sdc.yaml](https://github.com/onefoursix/sdc-k8s-deployment-with-custom-config/blob/master/examples/example-8/sdc.yaml) for an example manifest that includes an SDC Deployment, Service and Ingress.
 
 One can also use a single Ingress Controller to route traffic to multiple SDCs, using either <code>Host-based</code> or <code>Path-based</code> Ingress routing rules. 
 
